@@ -2,47 +2,172 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mi Malla Curricular</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Malla Curricular Derecho</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: sans-serif;
       padding: 2rem;
-      background: #f9f9f9;
+      background-color: #f4f4f4;
     }
-    h1 {
+    h2 {
+      margin-top: 2rem;
       color: #2c3e50;
     }
-    .asignatura {
+    .ramo {
+      margin: 6px 0;
       padding: 10px;
-      margin: 8px 0;
-      background-color: #fff;
+      background: #fff;
       border-left: 5px solid #ccc;
       cursor: pointer;
     }
     .aprobado {
-      background-color: #d4edda;
+      background: #d4edda;
       border-left-color: #28a745;
       text-decoration: line-through;
+    }
+    .bloqueado {
+      opacity: 0.5;
+      pointer-events: none;
     }
   </style>
 </head>
 <body>
-  <h1>Mi Malla Curricular</h1>
-  <p>Haz clic en los ramos para marcarlos como aprobados ✅</p>
+  <h1>Malla Curricular Derecho</h1>
+  <p>Haz clic para marcar los ramos aprobados ✅</p>
 
-  <div class="asignatura">Introducción al Derecho</div>
-  <div class="asignatura">Derecho Constitucional I</div>
-  <div class="asignatura">Derecho Civil I</div>
-  <div class="asignatura">Teoría del Estado</div>
+  <div id="malla"></div>
+  <p id="avance"></p>
 
   <script>
-    const ramos = document.querySelectorAll('.asignatura');
-    ramos.forEach(ramo => {
-      ramo.addEventListener('click', () => {
-        ramo.classList.toggle('aprobado');
-      });
-    });
+    const ramos = [
+      {
+        nombre: "Introducción al Derecho",
+        semestre: 1,
+        id: "intro",
+      },
+      {
+        nombre: "Historia del Derecho",
+        semestre: 1,
+        id: "historia"
+      },
+      {
+        nombre: "Instituciones Políticas y Derecho Constitucional Orgánico",
+        semestre: 1,
+        id: "constitucional"
+      },
+      {
+        nombre: "Derecho Romano",
+        semestre: 1,
+        id: "romano"
+      },
+      {
+        nombre: "Habilidades Comunicativas",
+        semestre: 1,
+        id: "habilidades"
+      },
+      {
+        nombre: "Nociones de Economía",
+        semestre: 2,
+        id: "economia"
+      },
+      {
+        nombre: "Teoría de los Derechos y Acciones Constitucionales",
+        semestre: 2,
+        id: "teoria"
+      },
+      {
+        nombre: "Fundamentos del Derecho Privado",
+        semestre: 2,
+        id: "privado"
+      },
+      {
+        nombre: "Interpretación y Argumentación",
+        semestre: 2,
+        id: "argumentacion"
+      },
+      {
+        nombre: "Inglés I",
+        semestre: 2,
+        id: "ingles1"
+      },
+      {
+        nombre: "Derechos Fundamentales",
+        semestre: 3,
+        id: "fundamentales",
+        prerequisitos: ["teoria"]
+      },
+      {
+        nombre: "Negocio Jurídico y Teoría General de las Obligaciones",
+        semestre: 3,
+        id: "obligaciones",
+        prerequisitos: ["privado"]
+      },
+      {
+        nombre: "Derecho Procesal Parte General",
+        semestre: 3,
+        id: "procesal1"
+      },
+      {
+        nombre: "Pensamiento Crítico",
+        semestre: 3,
+        id: "critico"
+      },
+      {
+        nombre: "Inglés II",
+        semestre: 3,
+        id: "ingles2",
+        prerequisitos: ["ingles1"]
+      }
+    ];
+
+    const mallaDiv = document.getElementById("malla");
+    const avanceP = document.getElementById("avance");
+
+    const aprobados = new Set(JSON.parse(localStorage.getItem("aprobados")) || []);
+
+    function actualizarVista() {
+      mallaDiv.innerHTML = "";
+      let total = ramos.length;
+      let completados = 0;
+
+      for (let semestre = 1; semestre <= 3; semestre++) {
+        let header = document.createElement("h2");
+        header.textContent = `Semestre ${semestre}`;
+        mallaDiv.appendChild(header);
+
+        ramos.filter(r => r.semestre === semestre).forEach(ramo => {
+          const div = document.createElement("div");
+          div.textContent = ramo.nombre;
+          div.classList.add("ramo");
+
+          const cumplidos = !ramo.prerequisitos || ramo.prerequisitos.every(id => aprobados.has(id));
+          if (aprobados.has(ramo.id)) {
+            div.classList.add("aprobado");
+            completados++;
+          } else if (!cumplidos) {
+            div.classList.add("bloqueado");
+          }
+
+          div.addEventListener("click", () => {
+            if (aprobados.has(ramo.id)) {
+              aprobados.delete(ramo.id);
+            } else {
+              aprobados.add(ramo.id);
+            }
+            localStorage.setItem("aprobados", JSON.stringify([...aprobados]));
+            actualizarVista();
+          });
+
+          mallaDiv.appendChild(div);
+        });
+      }
+
+      let porcentaje = Math.round((completados / total) * 100);
+      avanceP.textContent = `Avance: ${completados} de ${total} ramos (${porcentaje}%)`;
+    }
+
+    actualizarVista();
   </script>
 </body>
 </html>
