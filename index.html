@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mi Malla Curricular</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+      background: #f9f9f9;
+    }
+    h1 {
+      color: #2c3e50;
+    }
+    .asignatura {
+      padding: 10px;
+      margin: 8px 0;
+      background-color: #fff;
+      border-left: 5px solid #ccc;
+      cursor: pointer;
+    }
+    .aprobado {
+      background-color: #d4edda;
+      border-left-color: #28a745;
+      text-decoration: line-through;
+    }
+  </style>
+</head>
+<body>
+  <h1>Mi Malla Curricular</h1>
+  <p>Haz clic en los ramos para marcarlos como aprobados ✅</p>
+
+  <div class="asignatura">Introducción al Derecho</div>
+  <div class="asignatura">Derecho Constitucional I</div>
+  <div class="asignatura">Derecho Civil I</div>
+  <div class="asignatura">Teoría del Estado</div>
+
+  <script>
+    const ramos = document.querySelectorAll('.asignatura');
+    ramos.forEach(ramo => {
+      ramo.addEventListener('click', () => {
+        ramo.classList.toggle('aprobado');
+      });
+    });
+  </script>
+</body>
+</html>
