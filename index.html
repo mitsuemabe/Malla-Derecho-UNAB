@@ -6,26 +6,58 @@
   <title>Malla Curricular Derecho</title>
   <style>
     body {
-      font-family: sans-serif;
-      padding: 2rem;
-      background-color: #f4f4f4;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f5f5f5;
     }
-    h2 {
-      margin-top: 2rem;
+
+    header {
+      position: sticky;
+      top: 0;
+      background: #2c3e50;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+      z-index: 1000;
+      font-size: 1.2rem;
+    }
+
+    .container {
+      padding: 2rem;
+    }
+
+    .semestre {
+      margin-bottom: 2rem;
+    }
+
+    .semestre h2 {
+      margin-bottom: 1rem;
       color: #2c3e50;
     }
-    .ramo {
-      margin: 6px 0;
-      padding: 10px;
-      background: #fff;
-      border-left: 5px solid #ccc;
-      cursor: pointer;
+
+    .fila-ramos {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
     }
+
+    .ramo {
+      background: white;
+      padding: 10px;
+      border-left: 5px solid #ccc;
+      flex: 1 1 200px;
+      cursor: pointer;
+      min-width: 180px;
+      transition: background 0.2s;
+    }
+
     .aprobado {
-      background: #d4edda;
+      background-color: #d4edda;
       border-left-color: #28a745;
       text-decoration: line-through;
     }
+
     .bloqueado {
       opacity: 0.5;
       pointer-events: none;
@@ -33,141 +65,143 @@
   </style>
 </head>
 <body>
-  <h1>Malla Curricular Derecho</h1>
-  <p>Haz clic para marcar los ramos aprobados ✅</p>
+  <header id="avanceGlobal">
+    Avance: 0%
+  </header>
+  <div class="container">
+<script>
+  const ramos = [
+    // PRIMER SEMESTRE
+    { id: "intro", nombre: "Introducción al Derecho", semestre: 1 },
+    { id: "historia", nombre: "Historia del Derecho", semestre: 1 },
+    { id: "constitucional", nombre: "Instituciones Políticas y Derecho Constitucional Orgánico", semestre: 1 },
+    { id: "romano", nombre: "Derecho Romano", semestre: 1 },
+    { id: "habilidades", nombre: "Habilidades Comunicativas", semestre: 1 },
 
-  <div id="malla"></div>
-  <p id="avance"></p>
+    // SEGUNDO SEMESTRE
+    { id: "economia", nombre: "Nociones de Economía", semestre: 2 },
+    { id: "teoria", nombre: "Teoría de los Derechos y Acciones Constitucionales", semestre: 2 },
+    { id: "privado", nombre: "Fundamentos del Derecho Privado", semestre: 2 },
+    { id: "argumentacion", nombre: "Interpretación y Argumentación", semestre: 2 },
+    { id: "ingles1", nombre: "Inglés I", semestre: 2 },
 
-  <script>
-    const ramos = [
-      {
-        nombre: "Introducción al Derecho",
-        semestre: 1,
-        id: "intro",
-      },
-      {
-        nombre: "Historia del Derecho",
-        semestre: 1,
-        id: "historia"
-      },
-      {
-        nombre: "Instituciones Políticas y Derecho Constitucional Orgánico",
-        semestre: 1,
-        id: "constitucional"
-      },
-      {
-        nombre: "Derecho Romano",
-        semestre: 1,
-        id: "romano"
-      },
-      {
-        nombre: "Habilidades Comunicativas",
-        semestre: 1,
-        id: "habilidades"
-      },
-      {
-        nombre: "Nociones de Economía",
-        semestre: 2,
-        id: "economia"
-      },
-      {
-        nombre: "Teoría de los Derechos y Acciones Constitucionales",
-        semestre: 2,
-        id: "teoria"
-      },
-      {
-        nombre: "Fundamentos del Derecho Privado",
-        semestre: 2,
-        id: "privado"
-      },
-      {
-        nombre: "Interpretación y Argumentación",
-        semestre: 2,
-        id: "argumentacion"
-      },
-      {
-        nombre: "Inglés I",
-        semestre: 2,
-        id: "ingles1"
-      },
-      {
-        nombre: "Derechos Fundamentales",
-        semestre: 3,
-        id: "fundamentales",
-        prerequisitos: ["teoria"]
-      },
-      {
-        nombre: "Negocio Jurídico y Teoría General de las Obligaciones",
-        semestre: 3,
-        id: "obligaciones",
-        prerequisitos: ["privado"]
-      },
-      {
-        nombre: "Derecho Procesal Parte General",
-        semestre: 3,
-        id: "procesal1"
-      },
-      {
-        nombre: "Pensamiento Crítico",
-        semestre: 3,
-        id: "critico"
-      },
-      {
-        nombre: "Inglés II",
-        semestre: 3,
-        id: "ingles2",
-        prerequisitos: ["ingles1"]
-      }
-    ];
+    // TERCER SEMESTRE
+    { id: "fundamentales", nombre: "Derechos Fundamentales", semestre: 3, prerequisitos: ["teoria"] },
+    { id: "obligaciones", nombre: "Negocio Jurídico y Teoría General de las Obligaciones", semestre: 3, prerequisitos: ["privado"] },
+    { id: "procesal1", nombre: "Derecho Procesal Parte General", semestre: 3 },
+    { id: "critico", nombre: "Pensamiento Crítico", semestre: 3 },
+    { id: "ingles2", nombre: "Inglés II", semestre: 3, prerequisitos: ["ingles1"] },
 
-    const mallaDiv = document.getElementById("malla");
-    const avanceP = document.getElementById("avance");
+    // CUARTO SEMESTRE
+    { id: "comercial", nombre: "Fundamentos del Derecho Comercial y Títulos de Crédito", semestre: 4 },
+    { id: "internacional", nombre: "Derecho Internacional Público", semestre: 4, prerequisitos: ["constitucional"] },
+    { id: "bienes", nombre: "Derecho de los Bienes", semestre: 4, prerequisitos: ["obligaciones"] },
+    { id: "procesal2", nombre: "Normas Comunes a todo Procedimiento", semestre: 4, prerequisitos: ["procesal1"] },
+    { id: "ingles3", nombre: "Inglés III", semestre: 4, prerequisitos: ["ingles2"] },
 
-    const aprobados = new Set(JSON.parse(localStorage.getItem("aprobados")) || []);
+    // QUINTO SEMESTRE
+    { id: "penal1", nombre: "Principios del Derecho Penal y de la Pena", semestre: 5, prerequisitos: ["fundamentales"] },
+    { id: "adm1", nombre: "Derecho Administrativo I", semestre: 5, prerequisitos: ["constitucional"] },
+    { id: "incumplimiento", nombre: "Cumplimiento e Incumplimiento de las Obligaciones Contractuales", semestre: 5, prerequisitos: ["bienes"] },
+    { id: "declarativos", nombre: "Procedimientos Declarativos", semestre: 5, prerequisitos: ["procesal2"] },
+    { id: "seminario1", nombre: "Seminario de Investigación", semestre: 5, prerequisitos: ["intro", "historia", "romano", "economia", "argumentacion", "fundamentales", "comercial", "internacional", "bienes", "procesal2", "critico"] },
+    { id: "ingles4", nombre: "Inglés IV", semestre: 5, prerequisitos: ["ingles3"] },
 
-    function actualizarVista() {
-      mallaDiv.innerHTML = "";
-      let total = ramos.length;
-      let completados = 0;
+    // SEXTO SEMESTRE
+    { id: "societario", nombre: "Derecho Societario", semestre: 6 },
+    { id: "penal2", nombre: "Parte General del Derecho Penal", semestre: 6, prerequisitos: ["penal1"] },
+    { id: "adm2", nombre: "Derecho Administrativo II", semestre: 6, prerequisitos: ["adm1"] },
+    { id: "extracontractual", nombre: "Responsabilidad Extracontractual", semestre: 6, prerequisitos: ["incumplimiento"] },
+    { id: "laboral", nombre: "Derecho Laboral", semestre: 6 },
+    { id: "ejecucion", nombre: "Ejecución y Recursos", semestre: 6, prerequisitos: ["declarativos"] },
 
-      for (let semestre = 1; semestre <= 3; semestre++) {
-        let header = document.createElement("h2");
-        header.textContent = `Semestre ${semestre}`;
-        mallaDiv.appendChild(header);
+    // SÉPTIMO SEMESTRE
+    { id: "tributario", nombre: "Derecho Tributario", semestre: 7, prerequisitos: ["societario"] },
+    { id: "penal3", nombre: "Parte Especial del Derecho Penal", semestre: 7, prerequisitos: ["penal2"] },
+    { id: "contratos", nombre: "Contratos", semestre: 7, prerequisitos: ["incumplimiento"] },
+    { id: "asesoria", nombre: "Destrezas de Asesoría Legal", semestre: 7, prerequisitos: ["incumplimiento", "societario", "adm2"] },
+    { id: "procesalpenal", nombre: "Derecho Procesal Penal", semestre: 7, prerequisitos: ["penal2", "ejecucion"] },
+    { id: "tecnologia", nombre: "Derecho, Innovación y Tecnología", semestre: 7 },
 
-        ramos.filter(r => r.semestre === semestre).forEach(ramo => {
-          const div = document.createElement("div");
-          div.textContent = ramo.nombre;
-          div.classList.add("ramo");
+    // OCTAVO SEMESTRE
+    { id: "litigacion", nombre: "Litigación Oral", semestre: 8, prerequisitos: ["asesoria", "procesalpenal"] },
+    { id: "etica", nombre: "Ética Profesional", semestre: 8 },
+    { id: "familia", nombre: "Derecho de Familia", semestre: 8, prerequisitos: ["contratos"] },
+    { id: "forense", nombre: "Redacción Forense", semestre: 8, prerequisitos: ["contratos", "ejecucion", "asesoria"] },
+    { id: "negociacion", nombre: "Negociación y Mediación", semestre: 8, prerequisitos: ["contratos", "asesoria"] },
+    { id: "seminario2", nombre: "Seminario de Doctrina y Jurisprudencia", semestre: 8, prerequisitos: ["habilidades", "ingles4", "seminario1", "penal3", "asesoria", "extracontractual", "laboral", "procesalpenal", "tributario", "contratos", "tecnologia"] },
 
-          const cumplidos = !ramo.prerequisitos || ramo.prerequisitos.every(id => aprobados.has(id));
+    // NOVENO SEMESTRE
+    { id: "electivo1", nombre: "Electivo I", semestre: 9, prerequisitos: ["forense", "negociacion"] },
+    { id: "seminario3", nombre: "Seminario de Investigación II", semestre: 9, prerequisitos: ["seminario2"] },
+    { id: "sucesorio", nombre: "Derecho Sucesorio", semestre: 9, prerequisitos: ["familia"] },
+    { id: "clinica1", nombre: "Consultorío Jurídico I", semestre: 9, prerequisitos: ["litigacion", "etica", "familia", "forense", "negociacion", "seminario2"] },
+    { id: "genero", nombre: "Derecho, Género e Inclusión", semestre: 9, prerequisitos: ["fundamentales", "penal3", "familia"] },
+
+    // DÉCIMO SEMESTRE
+    { id: "electivo2", nombre: "Electivo II", semestre: 10, prerequisitos: ["electivo1"] },
+    { id: "electivo3", nombre: "Electivo III", semestre: 10, prerequisitos: ["electivo1"] },
+    { id: "electivo4", nombre: "Electivo IV", semestre: 10, prerequisitos: ["electivo1"] },
+    { id: "clinica2", nombre: "Consultorío Jurídico II", semestre: 10, prerequisitos: ["sucesorio", "clinica1", "genero"] },
+    { id: "graduacion", nombre: "Actividad Final de Graduación", semestre: 10, prerequisitos: ["seminario2", "electivo1", "seminario3", "sucesorio", "clinica1", "genero"] }
+  ];
+
+  const aprobados = new Set(JSON.parse(localStorage.getItem("aprobados")) || []);
+
+  function renderMalla() {
+    const container = document.querySelector(".container");
+    container.innerHTML = "";
+
+    let completados = 0;
+
+    for (let s = 1; s <= 10; s++) {
+      const bloque = document.createElement("div");
+      bloque.classList.add("semestre");
+
+      const titulo = document.createElement("h2");
+      titulo.textContent = `Semestre ${s}`;
+      bloque.appendChild(titulo);
+
+      const fila = document.createElement("div");
+      fila.classList.add("fila-ramos");
+
+      ramos.filter(r => r.semestre === s).forEach(ramo => {
+        const div = document.createElement("div");
+        div.classList.add("ramo");
+        div.textContent = ramo.nombre;
+
+        const desbloqueado = !ramo.prerequisitos || ramo.prerequisitos.every(p => aprobados.has(p));
+
+        if (aprobados.has(ramo.id)) {
+          div.classList.add("aprobado");
+          completados++;
+        } else if (!desbloqueado) {
+          div.classList.add("bloqueado");
+        }
+
+        div.addEventListener("click", () => {
           if (aprobados.has(ramo.id)) {
-            div.classList.add("aprobado");
-            completados++;
-          } else if (!cumplidos) {
-            div.classList.add("bloqueado");
+            aprobados.delete(ramo.id);
+          } else {
+            aprobados.add(ramo.id);
           }
-
-          div.addEventListener("click", () => {
-            if (aprobados.has(ramo.id)) {
-              aprobados.delete(ramo.id);
-            } else {
-              aprobados.add(ramo.id);
-            }
-            localStorage.setItem("aprobados", JSON.stringify([...aprobados]));
-            actualizarVista();
-          });
-
-          mallaDiv.appendChild(div);
+          localStorage.setItem("aprobados", JSON.stringify([...aprobados]));
+          renderMalla();
         });
-      }
 
-      let porcentaje = Math.round((completados / total) * 100);
-      avanceP.textContent = `Avance: ${completados} de ${total} ramos (${porcentaje}%)`;
+        fila.appendChild(div);
+      });
+
+      bloque.appendChild(fila);
+      container.appendChild(bloque);
     }
 
-    actualizarVista();
-  </script>
+    const total = ramos.length;
+    const porcentaje = Math.round((completados / total) * 100);
+    document.getElementById("avanceGlobal").textContent = `Avance: ${completados} de ${total} ramos (${porcentaje}%)`;
+  }
+
+  renderMalla();
+</script>
 </body>
 </html>
