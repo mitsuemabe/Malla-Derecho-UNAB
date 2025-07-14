@@ -104,10 +104,78 @@
     .aprobado {
       backgrou
 <body>
-  <header id="avanceGlobal">
+  <header>
+  <h1>Malla Interactiva: Derecho UNAB</h1>
+  <div class="avance-box" id="avanceGlobal">
     Avance: 0%
+  </div>
   </header>
   <div class="container">
+  <!-- PRIMER AÑO -->
+  <div class="anio">PRIMER AÑO</div>
+  <div class="bloque-anual">
+    <div class="semestre" data-semestre="1">
+      <h2>Primer Semestre</h2>
+      <div class="fila-ramos"></div>
+    </div>
+    <div class="semestre" data-semestre="2">
+      <h2>Segundo Semestre</h2>
+      <div class="fila-ramos"></div>
+    </div>
+  </div>
+
+  <!-- SEGUNDO AÑO -->
+  <div class="anio">SEGUNDO AÑO</div>
+  <div class="bloque-anual">
+    <div class="semestre" data-semestre="3">
+      <h2>Tercer Semestre</h2>
+      <div class="fila-ramos"></div>
+    </div>
+    <div class="semestre" data-semestre="4">
+      <h2>Cuarto Semestre</h2>
+      <div class="fila-ramos"></div>
+    </div>
+  </div>
+
+  <!-- TERCER AÑO -->
+  <div class="anio">TERCER AÑO</div>
+  <div class="bloque-anual">
+    <div class="semestre" data-semestre="5">
+      <h2>Quinto Semestre</h2>
+      <div class="fila-ramos"></div>
+    </div>
+    <div class="semestre" data-semestre="6">
+      <h2>Sexto Semestre</h2>
+      <div class="fila-ramos"></div>
+    </div>
+  </div>
+
+  <!-- CUARTO AÑO -->
+  <div class="anio">CUARTO AÑO</div>
+  <div class="bloque-anual">
+    <div class="semestre" data-semestre="7">
+      <h2>Séptimo Semestre</h2>
+      <div class="fila-ramos"></div>
+    </div>
+    <div class="semestre" data-semestre="8">
+      <h2>Octavo Semestre</h2>
+      <div class="fila-ramos"></div>
+    </div>
+  </div>
+
+  <!-- QUINTO AÑO -->
+  <div class="anio">QUINTO AÑO</div>
+  <div class="bloque-anual">
+    <div class="semestre" data-semestre="9">
+      <h2>Noveno Semestre</h2>
+      <div class="fila-ramos"></div>
+    </div>
+    <div class="semestre" data-semestre="10">
+      <h2>Décimo Semestre</h2>
+      <div class="fila-ramos"></div>
+    </div>
+  </div>
+</div>
 <script>
   const ramos = [
     // PRIMER SEMESTRE
@@ -185,40 +253,31 @@
     { id: "graduacion", nombre: "Actividad Final de Graduación", semestre: 10, prerequisitos: ["seminario2", "electivo1", "seminario3", "sucesorio", "clinica1", "genero"] }
   ];
 
-  const aprobados = new Set(JSON.parse(localStorage.getItem("aprobados")) || []);
+ const aprobados = new Set(JSON.parse(localStorage.getItem("aprobados")) || []);
 
   function renderMalla() {
-    const container = document.querySelector(".container");
-    container.innerHTML = "";
+    // Limpiar todos los contenedores
+    document.querySelectorAll(".fila-ramos").forEach(c => c.innerHTML = "");
 
     let completados = 0;
+    const total = ramos.length;
 
-    for (let s = 1; s <= 10; s++) {
-      const bloque = document.createElement("div");
-      bloque.classList.add("semestre");
+    ramos.forEach(ramo => {
+      const div = document.createElement("div");
+      div.classList.add("ramo");
+      div.textContent = ramo.nombre;
 
-      const titulo = document.createElement("h2");
-      titulo.textContent = `Semestre ${s}`;
-      bloque.appendChild(titulo);
+      const desbloqueado = !ramo.prerequisitos || ramo.prerequisitos.every(p => aprobados.has(p));
 
-      const fila = document.createElement("div");
-      fila.classList.add("fila-ramos");
+      if (aprobados.has(ramo.id)) {
+        div.classList.add("aprobado");
+        completados++;
+      } else if (!desbloqueado) {
+        div.classList.add("bloqueado");
+      }
 
-      ramos.filter(r => r.semestre === s).forEach(ramo => {
-        const div = document.createElement("div");
-        div.classList.add("ramo");
-        div.textContent = ramo.nombre;
-
-        const desbloqueado = !ramo.prerequisitos || ramo.prerequisitos.every(p => aprobados.has(p));
-
-        if (aprobados.has(ramo.id)) {
-          div.classList.add("aprobado");
-          completados++;
-        } else if (!desbloqueado) {
-          div.classList.add("bloqueado");
-        }
-
-        div.addEventListener("click", () => {
+      div.addEventListener("click", () => {
+        if (!div.classList.contains("bloqueado")) {
           if (aprobados.has(ramo.id)) {
             aprobados.delete(ramo.id);
           } else {
@@ -226,18 +285,18 @@
           }
           localStorage.setItem("aprobados", JSON.stringify([...aprobados]));
           renderMalla();
-        });
-
-        fila.appendChild(div);
+        }
       });
 
-      bloque.appendChild(fila);
-      container.appendChild(bloque);
-    }
+      const contenedor = document.querySelector(`.semestre[data-semestre="${ramo.semestre}"] .fila-ramos`);
+      if (contenedor) {
+        contenedor.appendChild(div);
+      }
+    });
 
-    const total = ramos.length;
     const porcentaje = Math.round((completados / total) * 100);
-    document.getElementById("avanceGlobal").textContent = `Avance: ${completados} de ${total} ramos (${porcentaje}%)`;
+    document.getElementById("avanceGlobal").textContent =
+      `Avance: ${completados} de ${total} ramos (${porcentaje}%)`;
   }
 
   renderMalla();
