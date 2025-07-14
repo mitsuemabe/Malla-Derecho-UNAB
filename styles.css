@@ -1,61 +1,79 @@
+/* --- Estilos generales --- */
 body {
   font-family: 'Segoe UI', sans-serif;
-  background-color: #f4f4f9;
-  color: #333;
-  text-align: center;
+  background-color: #ffffff;
+  color: #000000;
   margin: 0;
   padding: 2rem;
 }
 
 h1 {
-  margin-bottom: 2rem;
-  color: #1e3a8a;
-}
-
-.grid-container {
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-  flex-wrap: wrap;
-}
-
-.semester {
-  background-color: #ffffff;
-  border-radius: 10px;
-  padding: 1rem;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  width: 200px;
-}
-
-.semester h2 {
-  color: #111827;
+  color: #b07aff; /* lila */
+  text-align: center;
   margin-bottom: 1rem;
 }
 
-.subject {
-  padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  font-weight: 500;
+#progress-box {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-weight: bold;
+  font-size: 1.1rem;
 }
 
-/* Colores según estado */
-.subject.available {
-  background-color: #d1fae5; /* verde claro */
-  border: 1px solid #10b981;
+/* --- Contenedor general --- */
+#malla-container {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  overflow-x: auto;
+  padding-bottom: 2rem;
+}
+
+/* --- Cuadro por año --- */
+.year {
+  background-color: #f3e8ff; /* lila pastel */
+  padding: 1rem;
+  border-radius: 10px;
+  min-width: 350px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.year h2 {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+/* --- Dentro de cada año: dos semestres --- */
+.semesters {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.semester {
+  flex: 1;
+}
+
+.semester h3 {
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+/* --- Asignaturas individuales --- */
+.subject {
+  background-color: #fecaca; /* rojo pastel */
+  border: 1px solid #f87171;
+  padding: 8px;
+  margin: 6px 0;
+  border-radius: 6px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
 }
 
 .subject.completed {
-  background-color: #93c5fd; /* azul claro */
-  border: 1px solid #2563eb;
+  background-color: #bbf7d0; /* verde pastel */
+  border: 1px solid #34d399;
   text-decoration: line-through;
-}
-
-.subject.locked {
-  background-color: #f3f4f6; /* gris claro */
-  color: #9ca3af;
-  border: 1px dashed #d1d5db;
-  cursor: not-allowed;
 }
