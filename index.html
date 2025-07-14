@@ -102,7 +102,23 @@
     }
 
     .aprobado {
-      backgrou
+      background-color: var(--verde-aprobado) !important;
+      text-decoration: line-through;
+    }
+
+    .bloqueado {
+      background-color: var(--rojo-bloqueado) !important;
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+
+    @media (max-width: 600px) {
+      .bloque-anual {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
 <body>
   <header>
   <h1>Malla Interactiva: Derecho UNAB</h1>
