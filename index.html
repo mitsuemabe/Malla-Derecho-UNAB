@@ -3,67 +3,106 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Malla Curricular Derecho</title>
+  <title>Malla Interactiva: Derecho UNAB</title>
   <style>
+    :root {
+      --verde-aprobado: #c8f7c5;
+      --rojo-bloqueado: #f9c0c0;
+      --azul-disponible: #cbe4f9;
+      --lila-semestre: #eadcf7;
+      --fondo: #fffaf3;
+      --texto: #222;
+    }
+
     body {
-      font-family: Arial, sans-serif;
       margin: 0;
-      padding: 0;
-      background-color: #f5f5f5;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: var(--fondo);
+      color: var(--texto);
     }
 
     header {
-      position: sticky;
-      top: 0;
-      background: #2c3e50;
-      color: white;
-      padding: 1rem;
       text-align: center;
-      z-index: 1000;
-      font-size: 1.2rem;
+      padding: 2rem 1rem 1rem;
+    }
+
+    header h1 {
+      font-size: 2rem;
+      color: #000;
+      margin-bottom: 0.5rem;
+    }
+
+    .avance-box {
+      background-color: #e6e6e6;
+      padding: 1rem;
+      border-radius: 12px;
+      display: inline-block;
+      font-weight: bold;
+      font-size: 1rem;
     }
 
     .container {
-      padding: 2rem;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .anio {
+      font-size: 1.2rem;
+      font-weight: bold;
+      background-color: #dcdcdc;
+      padding: 0.75rem 1.5rem;
+      border-radius: 16px;
+      text-align: center;
+      width: fit-content;
+      margin: 0 auto 0.5rem;
+    }
+
+    .bloque-anual {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
     }
 
     .semestre {
-      margin-bottom: 2rem;
+      background-color: var(--lila-semestre);
+      padding: 1rem;
+      border-radius: 16px;
+      flex: 1 1 300px;
+      min-width: 280px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
 
     .semestre h2 {
-      margin-bottom: 1rem;
-      color: #2c3e50;
+      text-align: center;
+      margin-top: 0;
+      font-size: 1.1rem;
     }
 
     .fila-ramos {
       display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 1rem;
     }
 
     .ramo {
-      background: white;
-      padding: 10px;
-      border-left: 5px solid #ccc;
-      flex: 1 1 200px;
+      padding: 0.8rem;
+      border-radius: 12px;
+      background-color: var(--azul-disponible);
       cursor: pointer;
-      min-width: 180px;
-      transition: background 0.2s;
+      transition: transform 0.2s ease;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    .ramo:hover {
+      transform: scale(1.02);
     }
 
     .aprobado {
-      background-color: #d4edda;
-      border-left-color: #28a745;
-      text-decoration: line-through;
-    }
-
-    .bloqueado {
-      opacity: 0.5;
-      pointer-events: none;
-    }
-  </style>
-</head>
+      backgrou
 <body>
   <header id="avanceGlobal">
     Avance: 0%
