@@ -1,0 +1,61 @@
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f4f4f9;
+  color: #333;
+  text-align: center;
+  margin: 0;
+  padding: 2rem;
+}
+
+h1 {
+  margin-bottom: 2rem;
+  color: #1e3a8a;
+}
+
+.grid-container {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.semester {
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 1rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 200px;
+}
+
+.semester h2 {
+  color: #111827;
+  margin-bottom: 1rem;
+}
+
+.subject {
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-weight: 500;
+}
+
+/* Colores según estado */
+.subject.available {
+  background-color: #d1fae5; /* verde claro */
+  border: 1px solid #10b981;
+}
+
+.subject.completed {
+  background-color: #93c5fd; /* azul claro */
+  border: 1px solid #2563eb;
+  text-decoration: line-through;
+}
+
+.subject.locked {
+  background-color: #f3f4f6; /* gris claro */
+  color: #9ca3af;
+  border: 1px dashed #d1d5db;
+  cursor: not-allowed;
+}
