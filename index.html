@@ -178,35 +178,30 @@
 </div>
 <script>
   const ramos = [
-    // PRIMER SEMESTRE
     { id: "intro", nombre: "Introducción al Derecho", semestre: 1 },
     { id: "historia", nombre: "Historia del Derecho", semestre: 1 },
     { id: "constitucional", nombre: "Instituciones Políticas y Derecho Constitucional Orgánico", semestre: 1 },
     { id: "romano", nombre: "Derecho Romano", semestre: 1 },
     { id: "habilidades", nombre: "Habilidades Comunicativas", semestre: 1 },
 
-    // SEGUNDO SEMESTRE
     { id: "economia", nombre: "Nociones de Economía", semestre: 2 },
     { id: "teoria", nombre: "Teoría de los Derechos y Acciones Constitucionales", semestre: 2 },
     { id: "privado", nombre: "Fundamentos del Derecho Privado", semestre: 2 },
     { id: "argumentacion", nombre: "Interpretación y Argumentación", semestre: 2 },
     { id: "ingles1", nombre: "Inglés I", semestre: 2 },
 
-    // TERCER SEMESTRE
     { id: "fundamentales", nombre: "Derechos Fundamentales", semestre: 3, prerequisitos: ["teoria"] },
     { id: "obligaciones", nombre: "Negocio Jurídico y Teoría General de las Obligaciones", semestre: 3, prerequisitos: ["privado"] },
     { id: "procesal1", nombre: "Derecho Procesal Parte General", semestre: 3 },
     { id: "critico", nombre: "Pensamiento Crítico", semestre: 3 },
     { id: "ingles2", nombre: "Inglés II", semestre: 3, prerequisitos: ["ingles1"] },
 
-    // CUARTO SEMESTRE
     { id: "comercial", nombre: "Fundamentos del Derecho Comercial y Títulos de Crédito", semestre: 4 },
     { id: "internacional", nombre: "Derecho Internacional Público", semestre: 4, prerequisitos: ["constitucional"] },
     { id: "bienes", nombre: "Derecho de los Bienes", semestre: 4, prerequisitos: ["obligaciones"] },
     { id: "procesal2", nombre: "Normas Comunes a todo Procedimiento", semestre: 4, prerequisitos: ["procesal1"] },
     { id: "ingles3", nombre: "Inglés III", semestre: 4, prerequisitos: ["ingles2"] },
 
-    // QUINTO SEMESTRE
     { id: "penal1", nombre: "Principios del Derecho Penal y de la Pena", semestre: 5, prerequisitos: ["fundamentales"] },
     { id: "adm1", nombre: "Derecho Administrativo I", semestre: 5, prerequisitos: ["constitucional"] },
     { id: "incumplimiento", nombre: "Cumplimiento e Incumplimiento de las Obligaciones Contractuales", semestre: 5, prerequisitos: ["bienes"] },
@@ -214,7 +209,6 @@
     { id: "seminario1", nombre: "Seminario de Investigación", semestre: 5, prerequisitos: ["intro", "historia", "romano", "economia", "argumentacion", "fundamentales", "comercial", "internacional", "bienes", "procesal2", "critico"] },
     { id: "ingles4", nombre: "Inglés IV", semestre: 5, prerequisitos: ["ingles3"] },
 
-    // SEXTO SEMESTRE
     { id: "societario", nombre: "Derecho Societario", semestre: 6 },
     { id: "penal2", nombre: "Parte General del Derecho Penal", semestre: 6, prerequisitos: ["penal1"] },
     { id: "adm2", nombre: "Derecho Administrativo II", semestre: 6, prerequisitos: ["adm1"] },
@@ -222,7 +216,6 @@
     { id: "laboral", nombre: "Derecho Laboral", semestre: 6 },
     { id: "ejecucion", nombre: "Ejecución y Recursos", semestre: 6, prerequisitos: ["declarativos"] },
 
-    // SÉPTIMO SEMESTRE
     { id: "tributario", nombre: "Derecho Tributario", semestre: 7, prerequisitos: ["societario"] },
     { id: "penal3", nombre: "Parte Especial del Derecho Penal", semestre: 7, prerequisitos: ["penal2"] },
     { id: "contratos", nombre: "Contratos", semestre: 7, prerequisitos: ["incumplimiento"] },
@@ -230,7 +223,6 @@
     { id: "procesalpenal", nombre: "Derecho Procesal Penal", semestre: 7, prerequisitos: ["penal2", "ejecucion"] },
     { id: "tecnologia", nombre: "Derecho, Innovación y Tecnología", semestre: 7 },
 
-    // OCTAVO SEMESTRE
     { id: "litigacion", nombre: "Litigación Oral", semestre: 8, prerequisitos: ["asesoria", "procesalpenal"] },
     { id: "etica", nombre: "Ética Profesional", semestre: 8 },
     { id: "familia", nombre: "Derecho de Familia", semestre: 8, prerequisitos: ["contratos"] },
@@ -238,14 +230,12 @@
     { id: "negociacion", nombre: "Negociación y Mediación", semestre: 8, prerequisitos: ["contratos", "asesoria"] },
     { id: "seminario2", nombre: "Seminario de Doctrina y Jurisprudencia", semestre: 8, prerequisitos: ["habilidades", "ingles4", "seminario1", "penal3", "asesoria", "extracontractual", "laboral", "procesalpenal", "tributario", "contratos", "tecnologia"] },
 
-    // NOVENO SEMESTRE
     { id: "electivo1", nombre: "Electivo I", semestre: 9, prerequisitos: ["forense", "negociacion"] },
     { id: "seminario3", nombre: "Seminario de Investigación II", semestre: 9, prerequisitos: ["seminario2"] },
     { id: "sucesorio", nombre: "Derecho Sucesorio", semestre: 9, prerequisitos: ["familia"] },
     { id: "clinica1", nombre: "Consultorío Jurídico I", semestre: 9, prerequisitos: ["litigacion", "etica", "familia", "forense", "negociacion", "seminario2"] },
     { id: "genero", nombre: "Derecho, Género e Inclusión", semestre: 9, prerequisitos: ["fundamentales", "penal3", "familia"] },
 
-    // DÉCIMO SEMESTRE
     { id: "electivo2", nombre: "Electivo II", semestre: 10, prerequisitos: ["electivo1"] },
     { id: "electivo3", nombre: "Electivo III", semestre: 10, prerequisitos: ["electivo1"] },
     { id: "electivo4", nombre: "Electivo IV", semestre: 10, prerequisitos: ["electivo1"] },
@@ -253,12 +243,10 @@
     { id: "graduacion", nombre: "Actividad Final de Graduación", semestre: 10, prerequisitos: ["seminario2", "electivo1", "seminario3", "sucesorio", "clinica1", "genero"] }
   ];
 
- const aprobados = new Set(JSON.parse(localStorage.getItem("aprobados")) || []);
+  const aprobados = new Set(JSON.parse(localStorage.getItem("aprobados")) || []);
 
   function renderMalla() {
-    // Limpiar todos los contenedores
     document.querySelectorAll(".fila-ramos").forEach(c => c.innerHTML = "");
-
     let completados = 0;
     const total = ramos.length;
 
