@@ -4,128 +4,160 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Malla Interactiva: Derecho UNAB</title>
-  <style>
-    :root {
-      --verde-aprobado: #c8f7c5;
-      --rojo-bloqueado: #f9c0c0;
-      --azul-disponible: #cbe4f9;
-      --lila-semestre: #eadcf7;
-      --fondo: #fffaf3;
-      --texto: #222;
-    }
+<style>
+  :root {
+    --fondo: #EDE7F6;
+    --texto: #222;
+    --lila-titulo: #9575CD;
+    --cuadro-anual: #D1C4E9;
+    --ramo-disponible: #B39DDB;
+    --ramo-aprobado: #C8E6C9;
+    --ramo-bloqueado: #FFBEAE;
+  }
 
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background-color: var(--fondo);
-      color: var(--texto);
-    }
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: var(--fondo);
+    color: var(--texto);
+  }
 
-    header {
-      text-align: center;
-      padding: 2rem 1rem 1rem;
-    }
+  header {
+    text-align: center;
+    padding: 2rem 1rem 1rem;
+  }
 
-    header h1 {
-      font-size: 2rem;
-      color: #000;
-      margin-bottom: 0.5rem;
-    }
+  header h1 {
+    font-size: 2rem;
+    color: var(--lila-titulo);
+    margin-bottom: 0.5rem;
+  }
 
-    .avance-box {
-      background-color: #e6e6e6;
-      padding: 1rem;
-      border-radius: 12px;
-      display: inline-block;
-      font-weight: bold;
-      font-size: 1rem;
-    }
+  .descripcion, .leyenda {
+    max-width: 700px;
+    margin: 0 auto 1rem;
+    font-size: 0.95rem;
+    line-height: 1.4;
+  }
 
-    .container {
-      padding: 1rem;
-      display: flex;
-      flex-direction: column;
-      gap: 2rem;
-    }
+  .leyenda {
+    font-weight: bold;
+  }
 
-    .anio {
-      font-size: 1.2rem;
-      font-weight: bold;
-      background-color: #dcdcdc;
-      padding: 0.75rem 1.5rem;
-      border-radius: 16px;
-      text-align: center;
-      width: fit-content;
-      margin: 0 auto 0.5rem;
-    }
+  .avance-box {
+    background-color: var(--cuadro-anual);
+    padding: 1rem;
+    border-radius: 12px;
+    display: inline-block;
+    font-weight: bold;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
 
+  .container {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .anio {
+    font-size: 1.2rem;
+    font-weight: bold;
+    background-color: var(--cuadro-anual);
+    padding: 0.75rem 1.5rem;
+    border-radius: 16px;
+    text-align: center;
+    width: fit-content;
+    margin: 0 auto 0.5rem;
+  }
+
+  .bloque-anual {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+  }
+
+  .semestre {
+    background-color: var(--cuadro-anual);
+    padding: 1rem;
+    border-radius: 16px;
+    flex: 1 1 300px;
+    min-width: 280px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+  }
+
+  .semestre h2 {
+    text-align: center;
+    margin-top: 0;
+    font-size: 1.1rem;
+  }
+
+  .fila-ramos {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 1rem;
+  }
+
+  .ramo {
+    padding: 0.8rem;
+    border-radius: 12px;
+    background-color: var(--ramo-disponible);
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    border: 2px dashed #9575CD;
+    font-size: 0.95rem;
+  }
+
+  .ramo:hover {
+    transform: scale(1.02);
+  }
+
+  .aprobado {
+    background-color: var(--ramo-aprobado) !important;
+    text-decoration: line-through;
+    border-style: solid;
+  }
+
+  .bloqueado {
+    background-color: var(--ramo-bloqueado) !important;
+    color: #555555aa;
+    border-style: dashed;
+    cursor: not-allowed;
+  }
+
+  .nota-final {
+    text-align: center;
+    font-size: 0.75rem;
+    margin: 4rem 1rem 2rem;
+    color: #444;
+  }
+
+  @media (max-width: 600px) {
     .bloque-anual {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-      justify-content: center;
-    }
-
-    .semestre {
-      background-color: var(--lila-semestre);
-      padding: 1rem;
-      border-radius: 16px;
-      flex: 1 1 300px;
-      min-width: 280px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-
-    .semestre h2 {
-      text-align: center;
-      margin-top: 0;
-      font-size: 1.1rem;
-    }
-
-    .fila-ramos {
-      display: flex;
       flex-direction: column;
-      gap: 8px;
-      margin-top: 1rem;
     }
-
-    .ramo {
-      padding: 0.8rem;
-      border-radius: 12px;
-      background-color: var(--azul-disponible);
-      cursor: pointer;
-      transition: transform 0.2s ease;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    }
-
-    .ramo:hover {
-      transform: scale(1.02);
-    }
-
-    .aprobado {
-      background-color: var(--verde-aprobado) !important;
-      text-decoration: line-through;
-    }
-
-    .bloqueado {
-      background-color: var(--rojo-bloqueado) !important;
-      opacity: 0.7;
-      cursor: not-allowed;
-    }
-
-    @media (max-width: 600px) {
-      .bloque-anual {
-        flex-direction: column;
-      }
-    }
-  </style>
+  }
+</style>
 </head>
 <body>
   <header>
   <h1>Malla Interactiva: Derecho UNAB</h1>
+
+  <div class="descripcion">
+    ¡Hola! Armé esta malla interactiva con la finalidad de que puedas visualizar tu avance curricular en base a los prerrequisitos que exige cada asignatura. Para ello, basta con que marques las asignaturas que has ido aprobando y automáticamente podrás ver cuáles puedes ir cursando. ¡Espero que esta herramienta sea de mucha ayuda, te deseo mucho éxito en la carrera!
+  </div>
+
+  <div class="leyenda">
+    En color lila verás las asignaturas que puedes actualmente inscribir, en rojo aquellas que no puedes cursar aún por faltar un prerrequisito y en verde aquellas que ya has aprobado.
+  </div>
+
   <div class="avance-box" id="avanceGlobal">
     Avance: 0%
   </div>
-  </header>
+</header>
   <div class="container">
   <!-- PRIMER AÑO -->
   <div class="anio">PRIMER AÑO</div>
@@ -281,16 +313,20 @@
       }
 
       div.addEventListener("click", () => {
-        if (!div.classList.contains("bloqueado")) {
-          if (aprobados.has(ramo.id)) {
-            aprobados.delete(ramo.id);
-          } else {
-            aprobados.add(ramo.id);
-          }
-          localStorage.setItem("aprobados", JSON.stringify([...aprobados]));
-          renderMalla();
-        }
-      });
+  if (div.classList.contains("bloqueado")) {
+    const faltan = ramo.prerequisitos.filter(p => !aprobados.has(p));
+    const nombres = ramos.filter(r => faltan.includes(r.id)).map(r => `• ${r.nombre}`);
+    alert(`Para cursar "${ramo.nombre}" te falta aprobar:\n\n${nombres.join("\n")}`);
+  } else {
+    if (aprobados.has(ramo.id)) {
+      aprobados.delete(ramo.id);
+    } else {
+      aprobados.add(ramo.id);
+    }
+    localStorage.setItem("aprobados", JSON.stringify([...aprobados]));
+    renderMalla();
+  }
+});
 
       const contenedor = document.querySelector(`.semestre[data-semestre="${ramo.semestre}"] .fila-ramos`);
       if (contenedor) {
@@ -305,5 +341,11 @@
 
   renderMalla();
 </script>
+  <div class="nota-final">
+  *Insumo creado por Mitsue Sepúlveda Mabe, cualquier sugerencia, falla o mejora a la página por favor comunicar al IG @mitsusepulveda o al IG del Centro de Estudiantes @cederechounab.
+</div>
+<div class="nota-final">
+  *Insumo creado por Mitsue Sepúlveda Mabe. Cualquier sugerencia, falla o mejora que te gustaría comunicar, por favor comunicar al IG @mitsusepulveda o al IG del Centro de Estudiantes @cederechounab.
+</div>
 </body>
 </html>
