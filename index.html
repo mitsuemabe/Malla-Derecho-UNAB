@@ -180,7 +180,7 @@
   </div>
 
   <div class="reiniciar-btn" onclick="reiniciarAvance()">
-  🔁 Reiniciar avance
+  Reiniciar avance
   </div>
 
 </header>
@@ -363,7 +363,6 @@ div.addEventListener("click", () => {
     localStorage.setItem("aprobados", JSON.stringify([...aprobados]));
     renderMalla();
   }
-
   function reiniciarAvance() {
   if (confirm("¿Estás segura de que deseas reiniciar tu avance?")) {
     localStorage.removeItem("aprobados");
