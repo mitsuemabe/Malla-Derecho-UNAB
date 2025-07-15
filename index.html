@@ -139,6 +139,26 @@
     .bloque-anual {
       flex-direction: column;
     }
+
+    .reiniciar-btn {
+  margin-top: 1rem;
+  display: inline-block;
+  background-color: var(--ramo-disponible);
+  color: #222;
+  padding: 0.7rem 1rem;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  border: 2px dashed #9575CD;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.reiniciar-btn:hover {
+  background-color: #a58bd2;
+  transform: scale(1.03);
+  color: white;
+}
   }
 </style>
 </head>
@@ -147,7 +167,8 @@
   <h1>Malla Interactiva: Derecho UNAB</h1>
 
   <div class="descripcion">
-    ¡Hola! Armé esta malla interactiva con la finalidad de que puedas visualizar tu avance curricular en base a los prerrequisitos que exige cada asignatura. Para ello, basta con que marques las asignaturas que has ido aprobando y automáticamente podrás ver cuáles puedes ir cursando. ¡Espero que esta herramienta sea de mucha ayuda, te deseo mucho éxito en la carrera!
+    ¡Hola! 
+    Armé esta malla interactiva con la finalidad de que puedas visualizar tu avance curricular en base a los prerrequisitos que exige cada asignatura. Para ello, basta con que marques las asignaturas que has ido aprobando y automáticamente podrás ver cuáles puedes ir cursando. ¡Espero que esta herramienta sea de mucha ayuda, te deseo mucho éxito en la carrera!
   </div>
 
   <div class="leyenda">
@@ -157,6 +178,11 @@
   <div class="avance-box" id="avanceGlobal">
     Avance: 0%
   </div>
+
+  <div class="reiniciar-btn" onclick="reiniciarAvance()">
+  🔁 Reiniciar avance
+  </div>
+
 </header>
   <div class="container">
   <!-- PRIMER AÑO -->
@@ -312,12 +338,23 @@
         div.classList.add("bloqueado");
       }
 
-      div.addEventListener("click", () => {
-  if (div.classList.contains("bloqueado")) {
-    const faltan = ramo.prerequisitos.filter(p => !aprobados.has(p));
-    const nombres = ramos.filter(r => faltan.includes(r.id)).map(r => `• ${r.nombre}`);
-    alert(`Para cursar "${ramo.nombre}" te falta aprobar:\n\n${nombres.join("\n")}`);
-  } else {
+      const desbloqueado = !ramo.prerequisitos || ramo.prerequisitos.every(p => aprobados.has(p));
+
+if (aprobados.has(ramo.id)) {
+  div.classList.add("aprobado");
+  completados++;
+} else if (!desbloqueado) {
+  div.classList.add("bloqueado");
+
+  // Mostrar tooltip con los prerrequisitos que faltan
+  const faltan = ramo.prerequisitos.filter(p => !aprobados.has(p));
+  const nombres = ramos.filter(r => faltan.includes(r.id)).map(r => r.nombre);
+  div.title = `Para cursar esta asignatura necesitas aprobar:\n- ${nombres.join("\n- ")}`;
+}
+
+// Manejo de clic solo si no está bloqueado
+div.addEventListener("click", () => {
+  if (!div.classList.contains("bloqueado")) {
     if (aprobados.has(ramo.id)) {
       aprobados.delete(ramo.id);
     } else {
@@ -325,6 +362,12 @@
     }
     localStorage.setItem("aprobados", JSON.stringify([...aprobados]));
     renderMalla();
+    function reiniciarAvance() {
+  if (confirm("¿Estás segura de que deseas reiniciar tu avance?")) {
+    localStorage.removeItem("aprobados");
+    renderMalla();
+  }
+}
   }
 });
 
@@ -343,9 +386,6 @@
 </script>
   <div class="nota-final">
   *Insumo creado por Mitsue Sepúlveda Mabe, cualquier sugerencia, falla o mejora a la página por favor comunicar al IG @mitsusepulveda o al IG del Centro de Estudiantes @cederechounab.
-</div>
-<div class="nota-final">
-  *Insumo creado por Mitsue Sepúlveda Mabe. Cualquier sugerencia, falla o mejora que te gustaría comunicar, por favor comunicar al IG @mitsusepulveda o al IG del Centro de Estudiantes @cederechounab.
 </div>
 </body>
 </html>
