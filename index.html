@@ -317,29 +317,28 @@
       const desbloqueado = !ramo.prerequisitos || ramo.prerequisitos.every(p => aprobados.has(p));
 
 if (aprobados.has(ramo.id)) {
-  div.classList.add("aprobado");
-  completados++;
-} else if (!desbloqueado) {
-  div.classList.add("bloqueado");
+        div.classList.add("aprobado");
+        completados++;
+      } else if (!desbloqueado) {
+        div.classList.add("bloqueado");
+        // Tooltip con requisitos faltantes
+        const faltan = ramo.prerequisitos.filter(p => !aprobados.has(p));
+        const nombres = ramos.filter(r => faltan.includes(r.id)).map(r => r.nombre);
+        div.title = `Para cursar esta asignatura necesitas aprobar:\n- ${nombres.join("\n- ")}`;
+      }
 
-  // Mostrar tooltip con los prerrequisitos que faltan
-  const faltan = ramo.prerequisitos.filter(p => !aprobados.has(p));
-  const nombres = ramos.filter(r => faltan.includes(r.id)).map(r => r.nombre);
-  div.title = `Para cursar esta asignatura necesitas aprobar:\n- ${nombres.join("\n- ")}`;
-}
-
-// Manejo de clic solo si no está bloqueado
-div.addEventListener("click", () => {
-  if (!div.classList.contains("bloqueado")) {
-    if (aprobados.has(ramo.id)) {
-      aprobados.delete(ramo.id);
-    } else {
-      aprobados.add(ramo.id);
-    }
-    localStorage.setItem("aprobados", JSON.stringify([...aprobados]));
-    renderMalla();
-  }
-});
+      // Clic solo si no está bloqueado
+      div.addEventListener("click", () => {
+        if (!div.classList.contains("bloqueado")) {
+          if (aprobados.has(ramo.id)) {
+            aprobados.delete(ramo.id);
+          } else {
+            aprobados.add(ramo.id);
+          }
+          localStorage.setItem("aprobados", JSON.stringify([...aprobados]));
+          renderMalla();
+        }
+      });
 
       const contenedor = document.querySelector(`.semestre[data-semestre="${ramo.semestre}"] .fila-ramos`);
       if (contenedor) {
@@ -350,6 +349,13 @@ div.addEventListener("click", () => {
     const porcentaje = Math.round((completados / total) * 100);
     document.getElementById("avanceGlobal").textContent =
       `Avance: ${completados} de ${total} ramos (${porcentaje}%)`;
+  }
+
+  function reiniciarAvance() {
+    if (confirm("¿Estás segura de que deseas reiniciar tu avance?")) {
+      localStorage.removeItem("aprobados");
+      renderMalla();
+    }
   }
 
   renderMalla();
