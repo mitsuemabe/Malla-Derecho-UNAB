@@ -362,13 +362,14 @@ div.addEventListener("click", () => {
     }
     localStorage.setItem("aprobados", JSON.stringify([...aprobados]));
     renderMalla();
-    function reiniciarAvance() {
+  }
+
+  function reiniciarAvance() {
   if (confirm("¿Estás segura de que deseas reiniciar tu avance?")) {
     localStorage.removeItem("aprobados");
     renderMalla();
   }
 }
-  }
 });
 
       const contenedor = document.querySelector(`.semestre[data-semestre="${ramo.semestre}"] .fila-ramos`);
